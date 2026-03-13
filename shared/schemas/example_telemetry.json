@@ -1,0 +1,35 @@
+[
+  {
+    "tower_id": "TX-NY-001",
+    "timestamp": "2026-03-11T12:00:00Z",
+    "cpu_usage": 45.2,
+    "memory_usage": 62.1,
+    "network_throughput": 850.5,
+    "signal_strength": 88,
+    "error_rate": 0.001,
+    "active_users": 1240,
+    "status": "online"
+  },
+  {
+    "tower_id": "TX-TX-042",
+    "timestamp": "2026-03-11T12:00:05Z",
+    "cpu_usage": 89.7,
+    "memory_usage": 91.2,
+    "network_throughput": 420.2,
+    "signal_strength": 72,
+    "error_rate": 0.045,
+    "active_users": 840,
+    "status": "warning"
+  },
+  {
+    "tower_id": "TX-FL-009",
+    "timestamp": "2026-03-11T12:00:10Z",
+    "cpu_usage": 0.0,
+    "memory_usage": 0.0,
+    "network_throughput": 0.0,
+    "signal_strength": 0,
+    "error_rate": 1.0,
+    "active_users": 0,
+    "status": "offline"
+  }
+]
