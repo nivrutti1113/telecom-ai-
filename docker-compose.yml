@@ -1,10 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  Telecom AI Platform — Docker Compose (Full Stack)
 # ══════════════════════════════════════════════════════════════════════════════
-# Usage:
-#   docker-compose up --build           # Start all services
-#   docker-compose up prediction-api    # Start only the ML API
-#   docker-compose down -v              # Stop and remove volumes
 
 version: "3.9"
 
@@ -73,7 +69,7 @@ services:
       - minio_data:/data
     command: server /data --console-address ":9001"
 
-  # ─── ML Services ──────────────────────────────────────────────────────
+  # ─── ML & Sim Services ────────────────────────────────────────────────
 
   prediction-api:
     build:
@@ -90,16 +86,24 @@ services:
       - ./ml/anomaly-detection/saved_models:/app/models/anomaly:ro
       - ./ml/traffic-forecasting/saved_models:/app/models/prophet:ro
       - prediction_uploads:/app/uploads
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
+
+  twin-service:
+    build:
+      context: ./services/twin-service
+      dockerfile: Dockerfile
+    container_name: telecom-twin-service
+    restart: unless-stopped
+    ports:
+      - "8003:8003"
+    environment:
+      UPDATE_INTERVAL_MS: 1000
+    depends_on:
+      - postgres
 
   # ─── Microservices ─────────────────────────────────────────────────────
 
@@ -128,7 +132,7 @@ services:
     container_name: telecom-telemetry
     restart: unless-stopped
     ports:
-      - "8003:8000"
+      - "8004:8000"
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     depends_on:
@@ -146,23 +150,10 @@ services:
       - "3000:3000"
     environment:
       NEXT_PUBLIC_API_URL: http://prediction-api:8001
+      NEXT_PUBLIC_TWIN_WS_URL: ws://localhost:8003/ws/network-state
     depends_on:
       - prediction-api
-
-  # ─── API Gateway ───────────────────────────────────────────────────────
-
-  nginx:
-    image: nginx:alpine
-    container_name: telecom-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-    volumes:
-      - ./infrastructure/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - prediction-api
-      - auth-service
-      - web-dashboard
+      - twin-service
 
   # ─── Monitoring ────────────────────────────────────────────────────────
 
