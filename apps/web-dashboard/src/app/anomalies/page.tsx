@@ -300,7 +300,7 @@ export default function AnomaliesPage() {
               </div>
 
               <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-800/30 font-mono text-[10px] text-slate-500 space-y-1">
-                <p className="text-emerald-400">CORRELATION_ID: {Math.random().toString(36).substring(2, 11).toUpperCase()}</p>
+                <p className="text-emerald-400">CORRELATION_ID: {`ANOM-${selectedAnomaly.id.toString().padStart(6, "0")}`}</p>
                 <p>DETECTED_BY: EDGE_AGENT_MODEL</p>
                 <p>ACTIONS: [ALERT_DISPATCHED, FAILOVER_INITIATED]</p>
                 <p>PIPELINE: anomaly-detection → root-cause-analysis → auto-remediation</p>

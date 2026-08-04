@@ -231,3 +231,17 @@ The architecture is modular. To add a new model (e.g., digital twin, edge AI):
 ## 📄 License
 
 Proprietary — TelcomAI Corp. All rights reserved.
+
+---
+
+## 🔐 Production Readiness Checklist
+
+1. Copy `.env.example` to `.env` and replace every `change-me-*` value before running the stack.
+2. Keep browser-facing API calls on `NEXT_PUBLIC_API_URL=/api/prediction`; the Next.js server proxies those requests to `NEXT_SERVER_API_URL` inside Docker so internal service names are not exposed to users.
+3. Set `AUTH_CORS_ORIGINS`, `PREDICTION_CORS_ORIGINS`, and `TWIN_CORS_ORIGINS` to the exact HTTPS origins allowed to call the APIs.
+4. Use the bundled Prometheus configuration at `infrastructure/prometheus/prometheus.yml` as the baseline for service metrics scraping.
+5. Verify all containers are healthy before exposing the deployment:
+   ```bash
+   docker compose --env-file .env up --build -d
+   docker compose ps
+   ```

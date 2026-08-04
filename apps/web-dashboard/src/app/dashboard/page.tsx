@@ -79,8 +79,8 @@ export default function DashboardPage() {
     try {
       const result = await predictAnomaly(anomalyInput);
       setAnomalyResult(result);
-    } catch (err: any) {
-      setAnomalyError(err.message || 'Prediction failed. Is the API running?');
+    } catch (err: unknown) {
+      setAnomalyError(err instanceof Error ? err.message : 'Prediction failed. Is the API running?');
     } finally {
       setAnomalyLoading(false);
     }
@@ -299,7 +299,7 @@ export default function DashboardPage() {
           <div className="h-[200px] flex items-center justify-center">
             <div className="text-center">
               <TrendingUp className="w-12 h-12 mx-auto mb-3 text-slate-700" />
-              <p className="text-slate-500 text-sm">Click "Forecast" to generate predictions</p>
+              <p className="text-slate-500 text-sm">Click &quot;Forecast&quot; to generate predictions</p>
               <p className="text-slate-600 text-xs mt-1">Requires trained Prophet models on the backend</p>
             </div>
           </div>

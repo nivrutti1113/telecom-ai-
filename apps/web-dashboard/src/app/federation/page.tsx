@@ -139,7 +139,7 @@ export default function FederationPage() {
           </div>
           <div className="p-4 bg-blue-500/5 border border-blue-500/20 rounded-xl">
             <p className="text-xs text-blue-400 leading-relaxed font-medium">
-              🔒 No raw data leaves the operator's infrastructure. Only model gradients are aggregated using secure multi-party computation.
+              🔒 No raw data leaves the operator&apos;s infrastructure. Only model gradients are aggregated using secure multi-party computation.
             </p>
           </div>
         </motion.div>

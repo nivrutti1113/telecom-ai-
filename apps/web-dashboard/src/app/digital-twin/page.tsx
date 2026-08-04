@@ -29,7 +29,7 @@ export default function DigitalTwinPage() {
 
   const stats = [
     { label: 'Active Nodes', value: lastUpdate?.nodes.length.toLocaleString() || '---', icon: Box },
-    { label: 'Avg Load', value: `${lastUpdate?.metrics.avg_load.toFixed(1)}%` || '---', icon: Activity },
+    { label: 'Avg Load', value: lastUpdate ? `${lastUpdate.metrics.avg_load.toFixed(1)}%` : '---', icon: Activity },
     { label: 'Critical Alert', value: lastUpdate?.metrics.critical_nodes || '0', icon: ShieldAlert, color: lastUpdate?.metrics.critical_nodes ? 'text-rose-400' : 'text-slate-400' },
     { label: 'Cloud Sync', value: 'Live', icon: Cloud },
   ];

@@ -28,7 +28,7 @@ const towers = [
 ];
 
 export default function NetworkMapPage() {
-  const [selectedTower, setSelectedTower] = useState<any>(null);
+  const [selectedTower, setSelectedTower] = useState<(typeof towers)[number] | null>(null);
 
   return (
     <div className="flex h-screen overflow-hidden">

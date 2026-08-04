@@ -37,6 +37,12 @@ logging.basicConfig(
 logger = logging.getLogger("prediction-service")
 
 
+def get_cors_origins() -> list[str]:
+    """Return explicit CORS origins from CORS_ORIGINS (comma-separated)."""
+    origins = os.getenv("CORS_ORIGINS", "http://localhost:3000")
+    return [origin.strip() for origin in origins.split(",") if origin.strip()]
+
+
 # ─── Pydantic Schemas ──────────────────────────────────────────────────────────
 
 class NetworkMetrics(BaseModel):
@@ -283,10 +289,10 @@ app = FastAPI(
 # CORS — allow frontend access
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=get_cors_origins(),
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 # Prometheus metrics

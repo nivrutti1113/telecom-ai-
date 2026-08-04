@@ -43,7 +43,7 @@ export function Sidebar() {
   return (
     <motion.div 
       animate={{ width: collapsed ? 72 : 260 }}
-      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
       className="flex flex-col h-screen bg-[#020617]/80 backdrop-blur-xl border-r border-slate-800/50 text-slate-300 relative z-20"
     >
       {/* Logo */}

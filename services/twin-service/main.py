@@ -10,6 +10,7 @@ Uses WebSockets to stream high-frequency updates.
 import asyncio
 import json
 import logging
+import os
 import random
 import uuid
 from datetime import datetime
@@ -23,6 +24,11 @@ from pydantic import BaseModel, Field
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("twin-service")
+
+def get_cors_origins() -> list[str]:
+    """Return explicit CORS origins from CORS_ORIGINS (comma-separated)."""
+    origins = os.getenv("CORS_ORIGINS", "http://localhost:3000")
+    return [origin.strip() for origin in origins.split(",") if origin.strip()]
 
 
 # ─── Simulation Schemas ────────────────────────────────────────────────────────
@@ -152,9 +158,9 @@ app = FastAPI(title="Digital Twin Simulation Service")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=get_cors_origins(),
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 manager = ConnectionManager()
