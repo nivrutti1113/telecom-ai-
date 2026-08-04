@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 
-const inter = Inter({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-});
 
 export const metadata: Metadata = {
   title: "TelcomAI | Next-Gen Network Intelligence Platform",
@@ -22,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.variable} antialiased bg-[#020617] text-slate-100 flex min-h-screen font-sans noise-overlay`}
+        className="antialiased bg-[#020617] text-slate-100 flex min-h-screen font-sans noise-overlay"
       >
         {/* Ambient glow orbs */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">

@@ -16,6 +16,7 @@ export interface NodeData {
 }
 
 export interface SimulationState {
+  simulation_id?: string;
   timestamp: string;
   nodes: NodeData[];
   metrics: {
@@ -51,16 +52,15 @@ function TowerNode({ data }: { data: NodeData }) {
 }
 
 function Connection({ start, end, status }: { start: [number, number, number], end: [number, number, number], status: string }) {
-  const points = useMemo(() => [new THREE.Vector3(...start), new THREE.Vector3(...end)], [start, end]);
-  const lineGeometry = useMemo(() => new THREE.BufferGeometry().setFromPoints(points), [points]);
-  
   const color = status === 'offline' ? '#f43f5e' : '#3b82f6';
+  const line = useMemo(() => {
+    const points = [new THREE.Vector3(...start), new THREE.Vector3(...end)];
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.LineBasicMaterial({ color, opacity: 0.15, transparent: true });
+    return new THREE.Line(geometry, material);
+  }, [start, end, color]);
 
-  return (
-    <line geometry={lineGeometry}>
-      <lineBasicMaterial color={color} opacity={0.15} transparent />
-    </line>
-  );
+  return <primitive object={line} />;
 }
 
 function NetworkMesh({ nodes }: { nodes: NodeData[] }) {

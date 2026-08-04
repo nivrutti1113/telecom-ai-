@@ -5,7 +5,7 @@
  * All endpoints use typed request/response schemas.
  */
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001";
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "/api/prediction").replace(/\/$/, "");
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -51,7 +51,7 @@ export interface TrafficForecastResponse {
   tower_id: string;
   metric: string;
   forecast: TrafficForecastPoint[];
-  model_metadata: Record<string, any>;
+  model_metadata: Record<string, unknown>;
 }
 
 export interface UploadResponse {
@@ -70,15 +70,18 @@ export interface ModelStatus {
   anomaly_models_loaded: boolean;
   prophet_models_loaded: Record<string, boolean>;
   scaler_loaded: boolean;
-  config?: Record<string, any>;
+  config?: Record<string, unknown>;
 }
 
 // ─── API Functions ─────────────────────────────────────────────────────────
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { "Content-Type": "application/json" },
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 
   if (!res.ok) {
