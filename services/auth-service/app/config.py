@@ -1,6 +1,8 @@
-from pydantic import field_validator
-from pydantic_settings import BaseSettings
+from functools import cached_property
 from typing import Optional
+
+from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Telecom Auth Service"
@@ -8,14 +10,11 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "supersecretkeyforproductiondevelopment" # Should be changed in production
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7 # 7 days
-    CORS_ORIGINS: list[str] = ["http://localhost:3000"]
+    CORS_ORIGINS: str = "http://localhost:3000"
 
-    @field_validator("CORS_ORIGINS", mode="before")
-    @classmethod
-    def parse_cors_origins(cls, value):
-        if isinstance(value, str):
-            return [origin.strip() for origin in value.split(",") if origin.strip()]
-        return value
+    @cached_property
+    def cors_origins(self) -> list[str]:
+        return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
     
     # Database
     POSTGRES_USER: str = "telecom_admin"

@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const apiTarget = process.env.NEXT_SERVER_API_URL || "http://localhost:8001";
+const apiTarget = process.env.NEXT_SERVER_API_URL || "http://prediction-api:8001";
 
 const nextConfig: NextConfig = {
   output: "standalone",

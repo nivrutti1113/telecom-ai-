@@ -156,6 +156,8 @@ services:
     build:
       context: ./apps/web-dashboard
       dockerfile: Dockerfile
+      args:
+        NEXT_SERVER_API_URL: ${NEXT_SERVER_API_URL:-http://prediction-api:8001}
     container_name: telecom-dashboard
     restart: unless-stopped
     ports:

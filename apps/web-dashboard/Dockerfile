@@ -8,6 +8,8 @@ RUN npm ci
 COPY . .
 
 # Build Next.js (standalone output)
+ARG NEXT_SERVER_API_URL=http://prediction-api:8001
+ENV NEXT_SERVER_API_URL=${NEXT_SERVER_API_URL}
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
