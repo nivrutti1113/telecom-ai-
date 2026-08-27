@@ -1,0 +1,14 @@
+{
+  "name": "telecom-ai-platform",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --workspace=web-dashboard",
+    "build": "npm run build --workspace=web-dashboard",
+    "start": "npm run start --workspace=web-dashboard",
+    "lint": "npm run lint --workspace=web-dashboard"
+  },
+  "workspaces": [
+    "apps/*"
+  ]
+}
