@@ -1,4 +1,4 @@
-name: Telecom AI Backend CI/CD
+name: Telecom AI CI/CD Pipeline
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  python-tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -19,16 +19,28 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pytest httpx
-        # Install service specific deps for testing
-        pip install -r services/auth-service/requirements.txt
-    - name: Run tests
+        if [ -f services/auth-service/requirements.txt ]; then pip install -r services/auth-service/requirements.txt; fi
+    - name: Run Pytest
       run: |
         pytest services/auth-service/tests
 
-  build-and-push:
-    needs: test
+  nextjs-build:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+    - name: Install Dependencies & Build Next.js App
+      run: |
+        npm install
+        npm run build
+
+  docker-build:
+    needs: [python-tests, nextjs-build]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.DOCKERHUB_USERNAME != ''
     steps:
     - uses: actions/checkout@v3
     - name: Login to DockerHub
@@ -42,15 +54,3 @@ jobs:
         context: ./services/auth-service
         push: true
         tags: telecom-ai/auth-service:latest
-
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v3
-    - name: Deploy to K8s
-      run: |
-        # Set context and deploy
-        kubectl apply -f infrastructure/kubernetes/deployments/
