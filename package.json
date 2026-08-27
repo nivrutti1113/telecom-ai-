@@ -9,6 +9,7 @@
     "lint": "npm run lint --workspace=web-dashboard"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "frontend"
   ]
 }
