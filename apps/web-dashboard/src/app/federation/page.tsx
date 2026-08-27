@@ -18,7 +18,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 const flData = [
   { round: 1, accuracy: 0.65, loss: 0.45 },
@@ -46,12 +46,12 @@ const securityProtocols = [
   { name: 'Model Encryption', detail: 'AES-256-GCM at rest & transit', icon: Shield, color: 'violet' },
 ];
 
-const container = {
+const container: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.06 } }
 };
 
-const item = {
+const item: Variants = {
   hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const } }
 };

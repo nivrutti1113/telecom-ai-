@@ -18,7 +18,7 @@ import {
   Wifi,
   ThermometerSun
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 const towers = [
   { id: 'TX-NY-001', name: 'Manhattan Hub', region: 'New York', status: 'online', type: '5G NR', uptime: '99.97%', users: 12400, latency: '8ms', temp: '42°C', signal: -65 },
@@ -29,12 +29,12 @@ const towers = [
   { id: 'TX-IL-017', name: 'Chicago Loop', region: 'Illinois', status: 'online', type: '5G NR', uptime: '99.88%', users: 15200, latency: '11ms', temp: '40°C', signal: -68 },
 ];
 
-const container = {
+const container: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.06 } }
 };
 
-const item = {
+const item: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] as const } }
 };

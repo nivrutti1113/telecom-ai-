@@ -88,7 +88,7 @@ export default function DigitalTwinPage() {
              </div>
              <div className="flex items-center gap-4">
                 <span className="text-[10px] text-slate-500 font-mono">SIM_ID: {lastUpdate?.simulation_id || '---'}</span>
-                <span className="text-[10px] text-slate-500 font-mono">TS: {lastUpdate?.timestamp.split('T')[1].split('.')[0] || '---'}</span>
+                <span className="text-[10px] text-slate-500 font-mono">TS: {lastUpdate?.timestamp?.split('T')[1]?.split('.')[0] || '---'}</span>
              </div>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function DigitalTwinPage() {
              <div className="space-y-3 font-mono text-[9px]">
                 {lastUpdate?.nodes.filter(n => n.status !== 'online').slice(0, 5).map(n => (
                   <div key={n.id} className={n.status === 'offline' ? 'text-rose-400' : 'text-amber-400'}>
-                    [{lastUpdate.timestamp.split('T')[1].split('.')[0]}] {n.id}: {n.status.toUpperCase()} (Load: {n.load.toFixed(1)}%)
+                    [{lastUpdate.timestamp?.split('T')[1]?.split('.')[0] || 'NOW'}] {n.id}: {n.status.toUpperCase()} (Load: {n.load.toFixed(1)}%)
                   </div>
                 ))}
                 <div className="text-slate-500 opacity-50">... streaming real-time telemetry</div>

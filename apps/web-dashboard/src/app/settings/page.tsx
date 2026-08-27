@@ -19,7 +19,7 @@ import {
   Smartphone,
   CheckCircle2
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 const tabs = [
   { id: 'profile', label: 'Profile', icon: User },
@@ -29,14 +29,14 @@ const tabs = [
   { id: 'api', label: 'API Keys', icon: Key },
 ];
 
-const container = {
+const container: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.06 } }
 };
 
-const item = {
+const item: Variants = {
   hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const } }
 };
 
 export default function SettingsPage() {
