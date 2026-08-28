@@ -23,7 +23,9 @@
     "react-dom": "19.2.3",
     "recharts": "^3.8.0",
     "tailwind-merge": "^3.5.0",
-    "three": "^0.183.2"
+    "three": "^0.183.2",
+    "victory-vendor": "^36.9.2",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
